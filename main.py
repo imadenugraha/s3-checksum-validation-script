@@ -18,7 +18,8 @@ def main():
         return exit(1)
 
     try:
-        list_backup = os.listdir("./temp")
+        list_backup = os.listdir("temp")
+        os.chdir("temp")
         for file in list_backup:
             upload_backup(file)
         log_entry = f"{now},STATUS=SUCCESS(ALL DATA ARE VALIDATED)"
