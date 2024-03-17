@@ -12,7 +12,7 @@ def main():
         subprocess.run(["./backup.sh"], shell=True, stdout=True)
     except PermissionError as pe:
         logging.error(pe)
-        log_entry = f"{now},STATUS=ERROR,ERROR MSG={pe}"
+        log_entry = f"{now},STATUS=ERROR({pe})"
         with open('log', 'a') as f:
             f.write(log_entry + '\n')
         return exit(1)
@@ -21,13 +21,13 @@ def main():
         list_backup = os.listdir("./temp")
         for file in list_backup:
             upload_backup(file)
-        log_entry = f"{now},STATUS=SUCCESS,MSG=ALL DATA ARE VALIDATED"
+        log_entry = f"{now},STATUS=SUCCESS(ALL DATA ARE VALIDATED)"
         with open('log', 'a') as f:
             f.write(log_entry + '\n')
         return exit(0)
     except Exception as e:
         logging.error(e)
-        log_entry = f"{now},STATUS=ERROR,ERROR MSG={e}"
+        log_entry = f"{now},STATUS=ERROR({e})"
         with open('log', 'a') as f:
             f.write(log_entry + '\n')
         return exit(1)
