@@ -1,5 +1,4 @@
 from uploadBackup import upload_backup
-from createFolder import create_backup_folder
 import os
 import subprocess
 import logging
@@ -19,7 +18,6 @@ def main():
         return exit(1)
 
     try:
-        create_backup_folder()
         list_backup = os.listdir("./temp")
         for file in list_backup:
             upload_backup(file)
