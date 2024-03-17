@@ -9,6 +9,7 @@ import datetime
 def main():
     now = datetime.date.today()
 
+    # Run backup.sh
     try:
         subprocess.run(["./backup.sh"], shell=True, stdout=True)
     except PermissionError as pe:
@@ -21,6 +22,7 @@ def main():
 
         return exit(1)
 
+    # Upload backup and validated the MD5
     try:
         list_backup = os.listdir("temp")
         os.chdir("temp")
