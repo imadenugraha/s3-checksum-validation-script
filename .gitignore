@@ -162,3 +162,4 @@ cython_debug/
 # File and folder test
 *.backup
 temp/
+MD5_S3_CHECKSUM
