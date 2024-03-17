@@ -37,7 +37,7 @@ def main():
         os.chdir("..")
 
         valid = validateChecksum("LOCAL_MD5", "MD5_S3_CHECKSUM")
-        subprocess.run(["rm", "LOCAL_MD5", "MD5_S3_CHECKSUM"], stdout=True)
+        subprocess.run(["rm", "-rf", "temp", "LOCAL_MD5", "MD5_S3_CHECKSUM"], stdout=True)
 
         if valid is True:
             log_entry = f"{now},STATUS=SUCCESS (All file are validated!)"
