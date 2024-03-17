@@ -1,5 +1,6 @@
 from uploadBackup import upload_backup
 from getChecksumS3 import getChecksumS3
+from validateChecksum import validateChecksum
 import os
 import subprocess
 import logging
@@ -11,10 +12,10 @@ def main():
 
     # Run backup.sh
     try:
-        subprocess.run(["./backup.sh"], shell=True, stdout=True)
+        subprocess.run(["./backup.sh"], shell=True, stderr=True)
     except PermissionError as pe:
         logging.error(pe)
-        log_entry = f"{now},STATUS=ERROR({pe})"
+        log_entry = f"{now},STATUS=ERROR ({pe})"
 
         with open('log', 'a') as f:
             f.write(log_entry + '\n')
@@ -34,16 +35,27 @@ def main():
                 f.close()
 
         os.chdir("..")
-        log_entry = f"{now},STATUS=SUCCESS(ALL DATA ARE VALIDATED)"
 
-        with open('log', 'a') as f:
-            f.write(log_entry + '\n')
-            f.close()
+        valid = validateChecksum("LOCAL_MD5", "MD5_S3_CHECKSUM")
+        subprocess.run(["rm", "LOCAL_MD5", "MD5_S3_CHECKSUM"], stdout=True)
 
-        return exit(0)
+        if valid is True:
+            log_entry = f"{now},STATUS=SUCCESS (All file are validated!)"
+
+            with open('log', 'a') as f:
+                f.write(log_entry + '\n')
+                f.close()
+            return exit(0)
+        else:
+            log_entry = f"{now},STATUS=FAIL (Some file is not validated!)"
+
+            with open('log', 'a') as f:
+                f.write(log_entry + '\n')
+                f.close()
+            return exit(0)
     except Exception as e:
         logging.error(e)
-        log_entry = f"{now},STATUS=ERROR({e})"
+        log_entry = f"{now},STATUS=ERROR ({e})"
 
         with open('log', 'a') as f:
             f.write(log_entry + '\n')
