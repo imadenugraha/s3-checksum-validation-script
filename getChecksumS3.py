@@ -25,16 +25,3 @@ def getChecksumS3(file_name):
         return md5_checksum
     except ClientError as e:
         return logging.error(e)
-
-
-def main():
-    file = os.listdir("temp")
-    os.chdir("temp")
-    for file_name in file:
-        with open("../MD5_S3_CHECKSUM", "a") as f:
-            f.write(getChecksumS3(file_name) + "\n")
-            f.close()
-
-
-if __name__ == "__main__":
-    main()
