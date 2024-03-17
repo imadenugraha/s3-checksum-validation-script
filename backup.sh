@@ -20,5 +20,3 @@ for db in $database; do
         echo "Database $db berhasil dibackup ke $backup_dir/$backup_file"
     fi
 done
-
-rm -rf "$backup_dir"
