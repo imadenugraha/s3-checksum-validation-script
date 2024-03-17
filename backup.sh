@@ -10,7 +10,7 @@ else
   source .env
 fi
 
-mkdir $backup_dir
+mkdir "$backup_dir"
 
 for db in $database; do
     if [[ "$db" != "template"* && "$db" != "postgres" ]]; then
