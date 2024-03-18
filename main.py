@@ -12,7 +12,7 @@ def main():
 
     # Run backup.sh
     try:
-        subprocess.run(["./backup.sh"], shell=True, stderr=True)
+        subprocess.run(["./backup.sh"], stdout=True, stderr=True)
     except PermissionError as pe:
         logging.error(pe)
         log_entry = f"{now},STATUS=ERROR ({pe})"
